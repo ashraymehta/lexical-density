@@ -19,7 +19,7 @@ export class TextComplexityController {
 
         const responseData: { overall_ld: number, sentence_ld?: number[] } = {overall_ld: lexicalDensity.overallLexicalDensity};
         if (mode === TextComplexityController.VerboseMode) {
-            responseData.sentence_ld = lexicalDensity.sentenceLexicalDensities
+            responseData.sentence_ld = lexicalDensity.sentenceLexicalDensities;
         }
         res.json({data: responseData});
     }

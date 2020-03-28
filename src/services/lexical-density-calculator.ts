@@ -13,14 +13,14 @@ export class LexicalDensityCalculator {
     }
 
     public async calculate(text: string): Promise<{ sentenceLexicalDensities: number[]; overallLexicalDensity: number }> {
-        const allNonLexicalWords = await this.nonLexicalWordsService.findAllNonLexicalWords();
+        const allNonLexicalWords = (await this.nonLexicalWordsService.findAllNonLexicalWords()).map(value => value.toLowerCase());
 
         const sentences = this.sentenceParser.parse(text);
 
         const lexicalDensitiesForSentences = sentences.map(sentence => {
             const wordsFromSentence = sentence.words;
 
-            const nonLexicalWords = wordsFromSentence.filter(word => !allNonLexicalWords.includes(word));
+            const nonLexicalWords = wordsFromSentence.filter(word => !allNonLexicalWords.includes(word.toLowerCase()));
             const numberOfLexicalWords = nonLexicalWords.length;
             const numberOfTotalWords = wordsFromSentence.length;
             const lexicalDensity = numberOfLexicalWords / numberOfTotalWords;
