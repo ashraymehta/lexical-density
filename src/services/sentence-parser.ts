@@ -1,5 +1,7 @@
+import {injectable} from 'inversify';
 import {Sentence} from '../models/sentence';
 
+@injectable()
 export class SentenceParser {
     private static readonly WordSeparator = ' ';
     private static readonly SentenceSeparator = '.';

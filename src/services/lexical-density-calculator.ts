@@ -1,6 +1,8 @@
+import {injectable} from 'inversify';
 import {SentenceParser} from './sentence-parser';
 import {NonLexicalWordsService} from './non-lexical-words-service';
 
+@injectable()
 export class LexicalDensityCalculator {
     private readonly sentenceParser: SentenceParser;
     private readonly nonLexicalWordsService: NonLexicalWordsService;
