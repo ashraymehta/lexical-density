@@ -4,6 +4,14 @@
   "description": "Project to provide insights about the lexical density of text.",
   "main": "index.ts",
   "scripts": {
+    "clean": "rm -rf build",
+    "prebuild": "npm run clean && npm run lint && npm run test",
+    "build": "npm run assemble",
+    "lint": "tslint -c tslint.json --project tsconfig.json",
+    "preassemble": "npm run clean",
+    "assemble": "tsc",
+    "start": "node build/src/index.js",
+    "debug": "node --require ts-node/register/type-check src/index.ts",
     "test": "nyc mocha"
   },
   "license": "UNLICENSED",
