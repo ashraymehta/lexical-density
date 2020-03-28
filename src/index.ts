@@ -9,7 +9,7 @@ async function bootUp() {
     const application = applicationServer.initialize();
     const server = application.listen(15000, () => {
         const {port} = server.address() as AddressInfo;
-        Logger.getLogger('express').log(`Listening on port [${port}].`);
+        Logger.getLogger('express').info(`Listening on port [${port}].`);
     });
 
     await applicationServer.container.get(DatabaseBootstrapper).bootstrap();
