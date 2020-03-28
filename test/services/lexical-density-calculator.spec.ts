@@ -1,8 +1,9 @@
 import {expect} from 'chai';
 import {instance, mock, when} from 'ts-mockito';
-import {Sentence, SentenceParser} from '../../src/services/sentence-parser';
+import {SentenceParser} from '../../src/services/sentence-parser';
 import {NonLexicalWordsService} from '../../src/services/non-lexical-words-service';
 import {LexicalDensityCalculator} from '../../src/services/lexical-density-calculator';
+import {Sentence} from '../../src/models/sentence';
 
 describe('Lexical Density Calculator', function () {
     const sentenceParser = mock(SentenceParser);

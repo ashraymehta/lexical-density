@@ -1,3 +1,5 @@
+import {Sentence} from '../models/sentence';
+
 export class SentenceParser {
     private static readonly WordSeparator = ' ';
     private static readonly SentenceSeparator = '.';
@@ -9,8 +11,4 @@ export class SentenceParser {
                 words: sentence.split(SentenceParser.WordSeparator).filter(word => word)
             }));
     }
-}
-
-export interface Sentence {
-    words: string[];
 }

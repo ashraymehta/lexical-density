@@ -1,5 +1,6 @@
 import {expect} from 'chai';
-import {Sentence, SentenceParser} from '../../src/services/sentence-parser';
+import {SentenceParser} from '../../src/services/sentence-parser';
+import {Sentence} from '../../src/models/sentence';
 
 describe('Sentence Parser', function () {
     const sentenceParser = new SentenceParser();
