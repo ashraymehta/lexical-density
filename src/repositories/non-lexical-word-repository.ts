@@ -1,5 +1,7 @@
+import {injectable} from 'inversify';
 import {NonLexicalWord, NonLexicalWordModel} from '../models/non-lexical-words';
 
+@injectable()
 export class NonLexicalWordRepository {
     public async create(nonLexicalWord: NonLexicalWord): Promise<void> {
         await NonLexicalWordModel.create(nonLexicalWord);

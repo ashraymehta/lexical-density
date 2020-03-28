@@ -1,21 +1,19 @@
 import {expect} from 'chai';
-import {deepEqual, instance, mock, verify} from 'ts-mockito';
 import {NonLexicalWord} from '../../src/models/non-lexical-words';
+import {deepEqual, instance, mock, verify, when} from 'ts-mockito';
 import {NonLexicalWordsService} from '../../src/services/non-lexical-words-service';
 import {NonLexicalWordRepository} from '../../src/repositories/non-lexical-word-repository';
 
 describe('Non-Lexical Words Service', function () {
-    const expectedListOfNonLexicalWords = ['to', 'got', 'is', 'have', 'and', 'although', 'or', 'that', 'when', 'while', 'a', 'either',
-        'more', 'much', 'neither', 'my', 'that', 'the', 'as', 'no', 'nor', 'not', 'at', 'between', 'in', 'of', 'without', 'I', 'you',
-        'he', 'she', 'it', 'we', 'they', 'anybody', 'one'];
-
     const nonLexicalWordRepository = mock(NonLexicalWordRepository);
     const nonLexicalWordsService = new NonLexicalWordsService(instance(nonLexicalWordRepository));
 
-    it('should return a pre-defined list of non-lexical words', async function () {
+    it('should find non-lexical words', async function () {
+        when(nonLexicalWordRepository.findAll()).thenResolve([new NonLexicalWord('a'), new NonLexicalWord('the')]);
+
         const allNonLexicalWords = await nonLexicalWordsService.findAllNonLexicalWords();
 
-        expect(allNonLexicalWords).to.deep.equal(expectedListOfNonLexicalWords);
+        expect(allNonLexicalWords).to.deep.equal(['a', 'the']);
     });
 
     it('should create a non-lexical word', async function () {
