@@ -1,9 +1,10 @@
 import {expect} from 'chai';
-import {SentenceParser} from '../../src/services/sentence-parser';
 import {Sentence} from '../../src/models/sentence';
+import {WordParser} from '../../src/services/word-parser';
+import {SentenceParser} from '../../src/services/sentence-parser';
 
 describe('Sentence Parser', function () {
-    const sentenceParser = new SentenceParser();
+    const sentenceParser = new SentenceParser(new WordParser());
 
     it('should parse text into sentence', function () {
         const sentences = sentenceParser.parse('Kim loves going to the cinema');

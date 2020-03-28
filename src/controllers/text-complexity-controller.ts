@@ -13,7 +13,10 @@ export class TextComplexityController {
         this.lexicalDensityCalculator = lexicalDensityCalculator;
     }
 
-    @httpGet('', query('text').isLength({min: 1, max: 1000}), RequestValidation.middleware())
+    @httpGet('',
+        query('text').isLength({min: 1, max: 1000}),
+        query('text').custom(RequestValidation.wordCountValidator(100)),
+        RequestValidation.middleware())
     public async calculateComplexity(@queryParam('text') text: string,
                                      @queryParam('mode') mode: string,
                                      @response() res: Response) {
