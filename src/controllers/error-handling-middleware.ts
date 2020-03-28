@@ -1,8 +1,10 @@
+import {Logger} from '../utils/logger';
 import {NextFunction, Request, Response} from 'express';
 import {ValidationError} from './validation/validation-error';
 import {BAD_REQUEST, INTERNAL_SERVER_ERROR} from 'http-status-codes';
 
 export class ErrorHandlingMiddleware {
+    private static logger = Logger.getLogger(ErrorHandlingMiddleware.name);
 
     public static handleError(error: any, req: Request, res: Response, next: NextFunction): void {
         switch (error.constructor) {
@@ -12,6 +14,7 @@ export class ErrorHandlingMiddleware {
                 break;
             }
             default:
+                ErrorHandlingMiddleware.logger.error(`Encountered an error. Returning status code [${INTERNAL_SERVER_ERROR}]. ${error.stack}`);
                 res.status(INTERNAL_SERVER_ERROR).end();
         }
     }
