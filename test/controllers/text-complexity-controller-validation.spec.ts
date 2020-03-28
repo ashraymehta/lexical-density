@@ -17,6 +17,13 @@ describe('Text Complexity Controller API', function () {
             .expect(BAD_REQUEST);
     });
 
+    it('should return 400 response code if text is greater than 100 words', async function () {
+        const textWith101Words = [...Array(101)].map(() => 'a').join(' ');
+        await supertest(server)
+            .get(`/complexity/?text=${textWith101Words}`)
+            .expect(BAD_REQUEST);
+    });
+
     it('should return 400 response code if text is empty', async function () {
         const text = ``;
         await supertest(server)
