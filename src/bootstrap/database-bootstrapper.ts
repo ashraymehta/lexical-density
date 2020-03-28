@@ -1,6 +1,8 @@
+import {injectable} from 'inversify';
 import {mongoose} from '@typegoose/typegoose';
 import {NonLexicalWordsService} from '../services/non-lexical-words-service';
 
+@injectable()
 export class DatabaseBootstrapper {
     private static readonly databaseUri = `mongodb://localhost:27017/lexical-density`;
     private readonly nonLexicalWordsService: NonLexicalWordsService;

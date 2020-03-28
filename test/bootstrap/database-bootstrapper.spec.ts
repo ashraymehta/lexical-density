@@ -17,5 +17,5 @@ describe('Database Bootstrapper', function () {
 
     after(async () => {
         await mongoose.disconnect();
-    })
+    });
 });
