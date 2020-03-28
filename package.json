@@ -1,0 +1,12 @@
+{
+  "name": "lexical-density",
+  "version": "1.0.0",
+  "description": "Project to provide insights about the lexical density of text.",
+  "main": "index.ts",
+  "scripts": {
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "typescript": "3.8.3"
+  }
+}
