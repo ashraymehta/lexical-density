@@ -1,5 +1,5 @@
 export class NonLexicalWordsService {
-    findAllNonLexicalWords(): Promise<string[]> {
+    public findAllNonLexicalWords(): Promise<string[]> {
         return undefined;
     }
 }
