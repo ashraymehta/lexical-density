@@ -1,6 +1,8 @@
 import {Response} from 'express';
-import {controller, httpGet, queryParam, response} from 'inversify-express-utils';
+import {query} from 'express-validator';
+import {RequestValidation} from './validation/request-validation';
 import {LexicalDensityCalculator} from '../services/lexical-density-calculator';
+import {controller, httpGet, queryParam, response} from 'inversify-express-utils';
 
 @controller('/complexity')
 export class TextComplexityController {
@@ -11,7 +13,7 @@ export class TextComplexityController {
         this.lexicalDensityCalculator = lexicalDensityCalculator;
     }
 
-    @httpGet('')
+    @httpGet('', query('text').isLength({max: 1000}), RequestValidation.middleware())
     public async calculateComplexity(@queryParam('text') text: string,
                                      @queryParam('mode') mode: string,
                                      @response() res: Response) {
