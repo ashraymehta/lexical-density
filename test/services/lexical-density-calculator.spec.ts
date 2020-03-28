@@ -32,4 +32,6 @@ describe('Lexical Density Calculator', function () {
         expect(result.overallLexicalDensity).to.equal(0.69);
         expect(result.sentenceLexicalDensities).to.deep.equal([0.67, 0.71]);
     });
+
+//  TODO: Add tests for case-sensitivity
 });
