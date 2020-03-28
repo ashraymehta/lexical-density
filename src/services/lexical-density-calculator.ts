@@ -1,6 +1,9 @@
 import {injectable} from 'inversify';
+import {Sentence} from '../models/sentence';
 import {SentenceParser} from './sentence-parser';
 import {NonLexicalWordsService} from './non-lexical-words-service';
+import sum = require('lodash.sum');
+import round = require('lodash.round');
 
 @injectable()
 export class LexicalDensityCalculator {
@@ -14,29 +17,28 @@ export class LexicalDensityCalculator {
 
     public async calculate(text: string): Promise<{ sentenceLexicalDensities: number[]; overallLexicalDensity: number }> {
         const allNonLexicalWords = (await this.nonLexicalWordsService.findAllNonLexicalWords()).map(value => value.toLowerCase());
-
         const sentences = this.sentenceParser.parse(text);
 
-        const lexicalDensitiesForSentences = sentences.map(sentence => {
-            const wordsFromSentence = sentence.words;
+        const lexicalDensitiesForSentences = sentences.map(sentence =>
+            this.calculateLexicalDensityForSentence(sentence, allNonLexicalWords));
 
-            const nonLexicalWords = wordsFromSentence.filter(word => !allNonLexicalWords.includes(word.toLowerCase()));
-            const numberOfLexicalWords = nonLexicalWords.length;
-            const numberOfTotalWords = wordsFromSentence.length;
-            const lexicalDensity = numberOfLexicalWords / numberOfTotalWords;
-            return {numberOfLexicalWords, numberOfTotalWords, lexicalDensity};
-        });
-
-        const totalWordsInText = lexicalDensitiesForSentences.map(value => value.numberOfTotalWords)
-            .reduce((acc, val) => acc += val, 0);
-        const lexicalWordsInText = lexicalDensitiesForSentences.map(value => value.numberOfLexicalWords)
-            .reduce((acc, val) => acc += val, 0);
+        const totalWordsInText = sum(lexicalDensitiesForSentences.map(value => value.numberOfTotalWords));
+        const lexicalWordsInText = sum(lexicalDensitiesForSentences.map(value => value.numberOfLexicalWords));
 
         const overallLexicalDensity = lexicalWordsInText / totalWordsInText;
-
         return {
-            sentenceLexicalDensities: lexicalDensitiesForSentences.map(value => Number(value.lexicalDensity.toPrecision(2))),
-            overallLexicalDensity: Number(overallLexicalDensity.toPrecision(2))
+            sentenceLexicalDensities: lexicalDensitiesForSentences.map(value => round(value.lexicalDensity, 2)),
+            overallLexicalDensity: round(overallLexicalDensity, 2)
         };
+    }
+
+    private calculateLexicalDensityForSentence(sentence: Sentence, allNonLexicalWords: string[]) {
+        const wordsFromSentence = sentence.words;
+
+        const nonLexicalWords = wordsFromSentence.filter(word => !allNonLexicalWords.includes(word.toLowerCase()));
+        const numberOfLexicalWords = nonLexicalWords.length;
+        const numberOfTotalWords = wordsFromSentence.length;
+        const lexicalDensity = numberOfLexicalWords / numberOfTotalWords;
+        return {numberOfLexicalWords, numberOfTotalWords, lexicalDensity};
     }
 }
