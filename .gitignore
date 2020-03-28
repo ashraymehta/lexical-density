@@ -4,6 +4,9 @@ node_modules/
 ## NYC
 .nyc_output/
 
+### Typescript
+build/
+
 ### macOS
 .DS_Store
 
