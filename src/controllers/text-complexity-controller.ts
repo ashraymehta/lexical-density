@@ -4,6 +4,7 @@ import {LexicalDensityCalculator} from '../services/lexical-density-calculator';
 
 @controller('/complexity')
 export class TextComplexityController {
+    private static readonly VerboseMode = 'verbose';
     private readonly lexicalDensityCalculator: LexicalDensityCalculator;
 
     constructor(lexicalDensityCalculator: LexicalDensityCalculator) {
@@ -11,12 +12,15 @@ export class TextComplexityController {
     }
 
     @httpGet('')
-    public async calculateComplexity(@queryParam('text') text: string, @response() res: Response) {
+    public async calculateComplexity(@queryParam('text') text: string,
+                                     @queryParam('mode') mode: string,
+                                     @response() res: Response) {
         const lexicalDensity = await this.lexicalDensityCalculator.calculate(text);
-        res.json({
-            data: {
-                overall_ld: lexicalDensity.overallLexicalDensity
-            }
-        });
+
+        const responseData: { overall_ld: number, sentence_ld?: number[] } = {overall_ld: lexicalDensity.overallLexicalDensity};
+        if (mode === TextComplexityController.VerboseMode) {
+            responseData.sentence_ld = lexicalDensity.sentenceLexicalDensities
+        }
+        res.json({data: responseData});
     }
 }
