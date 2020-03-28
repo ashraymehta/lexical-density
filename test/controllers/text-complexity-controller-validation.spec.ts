@@ -17,6 +17,13 @@ describe('Text Complexity Controller API', function () {
             .expect(BAD_REQUEST);
     });
 
+    it('should return 400 response code if text is empty', async function () {
+        const text = ``;
+        await supertest(server)
+            .get(`/complexity/?text=${text}`)
+            .expect(BAD_REQUEST);
+    });
+
     after(done => {
         server.close((err) => done(err));
     });
