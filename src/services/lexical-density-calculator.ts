@@ -1,21 +1,22 @@
+import {SentenceParser} from './sentence-parser';
 import {NonLexicalWordsService} from './non-lexical-words-service';
 
 export class LexicalDensityCalculator {
-    private static readonly WordSeparator = ' ';
-    private static readonly SentenceSeparator = '.';
+    private readonly sentenceParser: SentenceParser;
     private readonly nonLexicalWordsService: NonLexicalWordsService;
 
-    constructor(lexicalWordsService: NonLexicalWordsService) {
+    constructor(lexicalWordsService: NonLexicalWordsService, sentenceParser: SentenceParser) {
+        this.sentenceParser = sentenceParser;
         this.nonLexicalWordsService = lexicalWordsService;
     }
 
     public async calculate(text: string): Promise<{ sentenceLexicalDensities: number[]; overallLexicalDensity: number }> {
         const allNonLexicalWords = await this.nonLexicalWordsService.findAllNonLexicalWords();
 
-        const sentences = text.split(LexicalDensityCalculator.SentenceSeparator).filter(sentence => sentence);
+        const sentences = this.sentenceParser.parse(text);
 
         const lexicalDensitiesForSentences = sentences.map(sentence => {
-            const wordsFromSentence = sentence.split(LexicalDensityCalculator.WordSeparator).filter(word => word);
+            const wordsFromSentence = sentence.words;
 
             const nonLexicalWords = wordsFromSentence.filter(word => !allNonLexicalWords.includes(word));
             const numberOfLexicalWords = nonLexicalWords.length;
