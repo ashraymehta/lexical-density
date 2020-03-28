@@ -31,6 +31,18 @@ describe('Non Lexical Word Repository', function () {
         expect(savedNonLexicalWords.map(w => w.word)).to.deep.equal(['a', 'the', 'to']);
     });
 
+    it('should remove all non-lexical words from the repository', async function () {
+        await nonLexicalWordRepository.create(new NonLexicalWord('a'));
+        await nonLexicalWordRepository.create(new NonLexicalWord('the'));
+        await nonLexicalWordRepository.create(new NonLexicalWord('to'));
+
+        await nonLexicalWordRepository.removeAll();
+
+        const savedNonLexicalWords = await nonLexicalWordRepository.findAll();
+
+        expect(savedNonLexicalWords).to.be.empty;
+    });
+
     after(async () => {
         await mongoose.disconnect();
     });

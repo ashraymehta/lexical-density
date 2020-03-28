@@ -8,4 +8,8 @@ export class NonLexicalWordRepository {
     public async findAll(): Promise<NonLexicalWord[]> {
         return NonLexicalWordModel.find().lean();
     }
+
+    public async removeAll(): Promise<void> {
+        await NonLexicalWordModel.deleteMany({});
+    }
 }
