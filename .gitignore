@@ -1,6 +1,9 @@
 ### NodeJS
 node_modules/
 
+## NYC
+.nyc_output/
+
 ### macOS
 .DS_Store
 
