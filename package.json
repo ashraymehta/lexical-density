@@ -22,7 +22,7 @@
     "inversify-express-utils": "6.3.2",
     "lodash.sum": "4.0.2",
     "lodash.round": "4.0.4",
-    "log4js": "6.1.2",
+    "log4js": "6.4.0",
     "mongoose": "5.9.6",
     "reflect-metadata": "0.1.13",
     "typescript": "3.8.3"
